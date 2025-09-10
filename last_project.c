@@ -169,13 +169,38 @@ void Edit_player(int count){
     }
 }
 
+int Delete_player(int count) {
+    int deleted_id;
+    printf("Enter the id you want to delete: ");
+    scanf("%d", &deleted_id);
+
+    int found = 0;
+    for (int i = 0; i < count; i++) {
+        if (team[i].id == deleted_id) {
+            for (int j = i; j < count - 1; j++) {
+                team[j] = team[j + 1];
+            }
+            count--;
+            found = 1;
+            printf("Player with ID %d deleted successfully!\n", deleted_id);
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("No player found with ID %d\n", deleted_id);
+    }
+
+    return count;
+}
+
+
 int Search_player(int count, int found){
     char Search[20];
     int s_id;
     int c;
     printf("1. Search with name : \n");
     printf("2. Search with id : \n");
-    printf("2. Change the number of goals scored by a player. : \n");
     scanf("%d", &c);
     if(c == 1){
         printf("Enter player name : ");
@@ -197,6 +222,83 @@ int Search_player(int count, int found){
     return found;
 }
 
+void Statistics(int count){
+    printf("\n------------------- the total number of players --------------------\n");
+    printf("the total number of players in the squad is : %d\n", count);
+    printf("--------------------------------------------------------------------\n");
+    
+    int s = 0;
+    for(int i = 0; i < count; i++){
+        s += team[i].age;
+    }
+    printf("--------------------- Average age of players -----------------------\n");    
+    if (count > 0) {
+        int average = s / count;
+        printf("Average age of players: %d\n", average);
+    } else {
+        printf("No players available to calculate average age.\n");
+    }
+    printf("--------------------------------------------------------------------\n");
+    
+    printf("--------------- players who have scored more than X ----------------\n");
+    int x = 0;
+    printf("players who have scored more than X goals (X entered by the user) : \n");
+    scanf("%d", &x);
+
+    for(int i = 0; i < count; i++){
+        if(team[i].goals > x){
+            printf("%s\n", team[i].name);
+        }
+    }
+    printf("--------------------------------------------------------------------\n");
+
+    printf("--------------------------- top scorer -----------------------------\n");
+    printf("top scorer (player with the most goals)\n");
+    int m_size;
+    char most[30];
+    for(int i = 0; i < count; i++){
+        for(int j = i + 1; j < count; j++){
+            if(team[i].goals < team[j].goals){
+                m_size = j;
+                strcpy(most, team[j].name);
+            }
+        }
+    }
+    printf("i found : %s\n", most);
+    printf("--------------------------------------------------------------------\n");
+
+    printf("------------------- youngest and oldest players --------------------\n");
+
+    if (count > 0) {
+        int minAge = team[0].age;
+        int maxAge = team[0].age;
+        char youngest[30];
+        char oldest[30];
+
+        strcpy(youngest, team[0].name);
+        strcpy(oldest, team[0].name);
+
+        for (int i = 1; i < count; i++) {
+            if (team[i].age < minAge) {
+                minAge = team[i].age;
+                strcpy(youngest, team[i].name);
+            }
+            if (team[i].age > maxAge) {
+                maxAge = team[i].age;
+                strcpy(oldest, team[i].name);
+            }
+        }
+
+        printf("The oldest player is : %s (%d years)\n", oldest, maxAge);
+        printf("The youngest player is : %s (%d years)\n", youngest, minAge);
+    } else {
+        printf("No players available.\n");
+    }
+
+    printf("--------------------------------------------------------------------\n");
+
+}
+
 int main() {
     int choice;
     int count = 5;
@@ -209,6 +311,8 @@ int main() {
         printf("2. Display all players\n");
         printf("3. Edit a player\n");
         printf("4. Search for a player\n");
+        printf("5. Delete a player\n");
+        printf("6. Statistics\n");
         printf("7. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -235,6 +339,12 @@ int main() {
             case 4:
                 found = Search_player(count, found);
                 printf("%d", found);
+                break;
+            case 5:
+                count = Delete_player(count);
+                break;
+            case 6:
+                Statistics(count);
                 break;
             case 7:
                 running = 0;
