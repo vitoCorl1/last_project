@@ -102,6 +102,7 @@ void Display_players(int count){
     printf("1. Sort players alphabetically (Name).\n");
     printf("2. Sort players by age.\n");
     printf("3. Display players by position.\n");
+    printf("4. exit.\n");
     scanf("%d", &Dis_choise);
 
     if(Dis_choise == 1){
@@ -155,6 +156,8 @@ void Display_players(int count){
             printf("goals : %d\n", team[i].goals);
             printf("--------------------------------------------\n");
         }
+    }else if(Dis_choise == 4){
+        return;
     }
 }
 
@@ -164,6 +167,7 @@ void Edit_player(int count){
     printf("1. Change a player's position.\n");
     printf("2. Change a player's age.\n");
     printf("3. Change the number of goals scored by a player.\n");
+    printf("4. exit.\n");
     scanf("%d", &Edit_chois);
 
     int Edit_ID;
@@ -204,7 +208,7 @@ void Edit_player(int count){
             }
         }
         printf("age edited succesfully ! \n");
-        
+
     }else if(Edit_chois == 3){        
         int Edited_goals;
         printf("Enter edited position : ");
@@ -216,6 +220,8 @@ void Edit_player(int count){
             }
         }
         printf("goals edited succesfully ! \n");
+    }else if(Edit_chois == 4){
+        return;
     }
 }
 
@@ -247,14 +253,15 @@ int Delete_player(int count) {
     return count;
 }
 
-int Search_player(int count, int found) {
+void Search_player(int count) {
     char Search[20];
     int s_id;
     int c;
+    int found = 0;
 
     printf("--------------- Search Player ---------------\n");
-    printf("1. Search with name\n");
-    printf("2. Search with ID\n");
+    printf("1. Search by name\n");
+    printf("2. Search by ID\n");
     printf("Enter your choice: ");
     scanf("%d", &c);
 
@@ -270,7 +277,7 @@ int Search_player(int count, int found) {
     } 
     else if (c == 2) {
         printf("Enter player ID: ");
-        scanf("%d", &Search);
+        scanf("%d", &s_id);
 
         for (int i = 0; i < count; i++) {
             if (team[i].id == s_id) {
@@ -278,8 +285,13 @@ int Search_player(int count, int found) {
             }
         }
     }
-
-    return found;
+    printf("---------------- id : %d ------------------\n", team[found].id);
+    printf("name : %s\n", team[found].name);
+    printf("shirt number : %d\n", team[found].shirtNumber);
+    printf("position : %s\n", team[found].position);
+    printf("age : %d\n", team[found].age);
+    printf("goals : %d\n", team[found].goals);
+    printf("--------------------------------------------\n");
 }
 
 
@@ -363,7 +375,6 @@ void Statistics(int count){
 int main() {
     int choice;
     int count = 5;
-    int found = 0;
     int running = 1;
 
     while (running) {
@@ -399,8 +410,7 @@ int main() {
                 Edit_player(count);
                 break;
             case 4:
-                found = Search_player(count, found);
-                printf("%d", found);
+                Search_player(count);
                 break;
             case 5:
                 count = Delete_player(count);
