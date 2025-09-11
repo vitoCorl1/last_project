@@ -92,12 +92,12 @@ void Display_players(int count){
     
     for(int i = 0; i < count; i++){
         printf("---------------- id : %d ------------------\n", team[i].id);
-            printf("name : %s\n", team[i].name);
-            printf("shirt number : %d\n", team[i].shirtNumber);
-            printf("position : %s\n", team[i].position);
-            printf("age : %d\n", team[i].age);
-            printf("goals : %d\n", team[i].goals);
-            printf("--------------------------------------------\n");
+        printf("name : %s\n", team[i].name);
+        printf("shirt number : %d\n", team[i].shirtNumber);
+        printf("position : %s\n", team[i].position);
+        printf("age : %d\n", team[i].age);
+        printf("goals : %d\n", team[i].goals);
+        printf("--------------------------------------------\n");
     }
     printf("1. Sort players alphabetically (Name).\n");
     printf("2. Sort players by age.\n");
@@ -373,9 +373,10 @@ void Statistics(int count){
 }
 
 int main() {
-    int choice;
+    char choice;
     int count = 5;
     int running = 1;
+    char a;
 
     while (running) {
         printf("\n/////////// Menu Team Management ///////////\n");
@@ -387,11 +388,16 @@ int main() {
         printf("6. Statistics\n");
         printf("7. Exit\n");
         printf("\n///////////////////////////////////////////\n");
+
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        scanf("%c", &choice);
+        if(choice < 48 && choice > 57){
+            printf("\nthis caracter is not suported !\n");
+            break;
+        }
 
         switch (choice) {
-            case 1: {
+            case '1': {
                 int add;
                 printf("1. Add single player\n");
                 printf("2. Add multiple players\n");
@@ -403,22 +409,22 @@ int main() {
                     count = add_multiple_players(count);
                 break;
             }
-            case 2:
+            case '2':
                 Display_players(count);
                 break;
-            case 3:
+            case '3':
                 Edit_player(count);
                 break;
-            case 4:
+            case '4':
                 Search_player(count);
                 break;
-            case 5:
+            case '5':
                 count = Delete_player(count);
                 break;
-            case 6:
+            case '6':
                 Statistics(count);
                 break;
-            case 7:
+            case '7':
                 running = 0;
                 break;
             default:
