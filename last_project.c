@@ -46,23 +46,19 @@ int Add_player(int count) {
         return count;
     }
 
-    // Quarterback, Running Back, Wide Receiver, Offensive Lineman, Defensive Lineman, Linebacker, and Defensive Back
     int position;
-    printf("1. Quarterback \n2. Running Back \n3. Wide Receiver\n4. Offensive Lineman\n5. Defensive Lineman\n6. Linebacker\n 7. Defensive Back\n");
+    printf("1. Goal keeper \n2. Defender \n3. Midfield\n4.Forward\n");
     printf("Enter your player position : ");
     scanf("%d", &position);
-    if(position < 0 && position > 7){
+    if(position < 0 && position > 4){
         printf("invalid choise !");
         return count;
     }
     switch(position){
-        case 1: strcpy(team[count].position, "Quarterback"); break;
-        case 2: strcpy(team[count].position, "Running Back"); break;
-        case 3: strcpy(team[count].position, "Wide Receiver"); break;    
-        case 4: strcpy(team[count].position, "Offensive Lineman"); break;   
-        case 5: strcpy(team[count].position, "Defensive Lineman"); break; 
-        case 6: strcpy(team[count].position, "Linebacker"); break; 
-        case 7: strcpy(team[count].position, "Defensive Back"); break;
+        case 1: strcpy(team[count].position, "Goal keeper"); break;
+        case 2: strcpy(team[count].position, "Defender"); break;
+        case 3: strcpy(team[count].position, "Midfield"); break;    
+        case 4: strcpy(team[count].position, "Forward"); break;
     }
 
     printf("Enter your player goals : ");
@@ -80,6 +76,9 @@ int add_multiple_players(int count) {
     int how_many;
     printf("How many players do you want to add? ");
     scanf("%d", &how_many);
+    if(how_many < 0){
+        printf("wrong input !");
+    }
 
     for (int i = 0; i < how_many; i++) {
         count = Add_player(count);
@@ -125,7 +124,7 @@ void Display_players(int count){
     }else if(Dis_choise == 2){
         for(int i = 0; i < count; i++){
             for(int j = i + 1; j < count; j++){
-                if(team[i].age > team[j].age){
+                if(team[i].age < team[j].age){
                     temp = team[i];
                     team[i] = team[j];
                     team[j] = temp;
@@ -172,16 +171,28 @@ void Edit_player(int count){
     scanf("%d", &Edit_ID);
 
     if(Edit_chois == 1){
-        char Edited_position[10];
-        printf("Enter edited position : ");
-        scanf("%s", Edited_position);
+        int position;
+        printf("1. Goal keeper \n2. Defender \n3. Midfield\n4.Forward\n");
+        printf("Enter your player position : ");
+        scanf("%d", &position);
 
+        if(position < 0 && position > 4){
+            printf("invalid choise !");
+            return ;
+        }
+        
         for(int i = 0; i < count; i++){
             if(team[i].id == Edit_ID){
-                strcpy(team[i].position, Edited_position);
+                switch(position){
+                    case 1: strcpy(team[i].position, "Goal keeper"); break;
+                    case 2: strcpy(team[i].position, "Defender"); break;
+                    case 3: strcpy(team[i].position, "Midfield"); break;    
+                    case 4: strcpy(team[i].position, "Forward"); break;
+                }
             }
         }
         printf("position edited succesfully ! \n");
+
     }else if(Edit_chois == 2){
         int Edited_age;
         printf("Enter edited position : ");
@@ -193,6 +204,7 @@ void Edit_player(int count){
             }
         }
         printf("age edited succesfully ! \n");
+        
     }else if(Edit_chois == 3){        
         int Edited_goals;
         printf("Enter edited position : ");
