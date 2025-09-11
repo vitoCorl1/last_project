@@ -29,20 +29,48 @@ int Add_player(int count) {
     team[count].id = next_id++;
     printf("------------ id = %d ----------------\n", team[count].id);
 
-    printf("Enter your player name : ");
-    scanf(" %[^\n]", team[count].name);
+     printf("Enter your player name: ");
+     scanf(" %[^\n]", team[count].name);
 
     printf("Enter your player age : ");
     scanf("%d", &team[count].age);
+    if(team[count].age < 0){
+        printf("the player can't have this age ! ");
+        return count;
+    } 
 
     printf("Enter your player shirt number : ");
     scanf("%d", &team[count].shirtNumber);
+    if(team[count].shirtNumber < 0){
+        printf("the player can't have this shirt number ! ");
+        return count;
+    }
 
+    // Quarterback, Running Back, Wide Receiver, Offensive Lineman, Defensive Lineman, Linebacker, and Defensive Back
+    int position;
+    printf("1. Quarterback \n2. Running Back \n3. Wide Receiver\n4. Offensive Lineman\n5. Defensive Lineman\n6. Linebacker\n 7. Defensive Back\n");
     printf("Enter your player position : ");
-    scanf(" %[^\n]", team[count].position);
+    scanf("%d", &position);
+    if(position < 0 && position > 7){
+        printf("invalid choise !");
+        return count;
+    }
+    switch(position){
+        case 1: strcpy(team[count].position, "Quarterback"); break;
+        case 2: strcpy(team[count].position, "Running Back"); break;
+        case 3: strcpy(team[count].position, "Wide Receiver"); break;    
+        case 4: strcpy(team[count].position, "Offensive Lineman"); break;   
+        case 5: strcpy(team[count].position, "Defensive Lineman"); break; 
+        case 6: strcpy(team[count].position, "Linebacker"); break; 
+        case 7: strcpy(team[count].position, "Defensive Back"); break;
+    }
 
     printf("Enter your player goals : ");
     scanf("%d", &team[count].goals);
+    if(team[count].goals < 0){
+        printf("invalid goals ! ");
+        return count;
+    }
 
     printf("Player added successfully!\n");
     return count + 1;
@@ -62,6 +90,16 @@ int add_multiple_players(int count) {
 void Display_players(int count){
     player temp;
     int Dis_choise;
+    
+    for(int i = 0; i < count; i++){
+        printf("---------------- id : %d ------------------\n", team[i].id);
+            printf("name : %s\n", team[i].name);
+            printf("shirt number : %d\n", team[i].shirtNumber);
+            printf("position : %s\n", team[i].position);
+            printf("age : %d\n", team[i].age);
+            printf("goals : %d\n", team[i].goals);
+            printf("--------------------------------------------\n");
+    }
     printf("1. Sort players alphabetically (Name).\n");
     printf("2. Sort players by age.\n");
     printf("3. Display players by position.\n");
@@ -171,17 +209,20 @@ void Edit_player(int count){
 
 int Delete_player(int count) {
     int deleted_id;
-    printf("Enter the id you want to delete: ");
+    printf("Enter the ID you want to delete: ");
     scanf("%d", &deleted_id);
 
     int found = 0;
+
     for (int i = 0; i < count; i++) {
         if (team[i].id == deleted_id) {
             for (int j = i; j < count - 1; j++) {
                 team[j] = team[j + 1];
             }
+
             count--;
             found = 1;
+
             printf("Player with ID %d deleted successfully!\n", deleted_id);
             break;
         }
@@ -194,33 +235,41 @@ int Delete_player(int count) {
     return count;
 }
 
-
-int Search_player(int count, int found){
+int Search_player(int count, int found) {
     char Search[20];
     int s_id;
     int c;
-    printf("1. Search with name : \n");
-    printf("2. Search with id : \n");
+
+    printf("--------------- Search Player ---------------\n");
+    printf("1. Search with name\n");
+    printf("2. Search with ID\n");
+    printf("Enter your choice: ");
     scanf("%d", &c);
-    if(c == 1){
-        printf("Enter player name : ");
+
+    if (c == 1) {
+        printf("Enter player name: ");
         scanf(" %[^\n]", Search);
-        for(int i = 0; i < count; i++){
-            if(strcmp(team[i].name, Search) == 0){
-                found = i ;
+
+        for (int i = 0; i < count; i++) {
+            if (strcmp(team[i].name, Search) == 0) {
+                found = i;
             }
         }
-    }else if(c == 2){
-        printf("Enter player ID : ");
+    } 
+    else if (c == 2) {
+        printf("Enter player ID: ");
         scanf("%d", &Search);
-        for(int i = 0; i < count; i++){
-            if(team[i].id == s_id){
-                found = i ;
+
+        for (int i = 0; i < count; i++) {
+            if (team[i].id == s_id) {
+                found = i;
             }
         }
     }
+
     return found;
 }
+
 
 void Statistics(int count){
     printf("\n------------------- the total number of players --------------------\n");
@@ -314,6 +363,7 @@ int main() {
         printf("5. Delete a player\n");
         printf("6. Statistics\n");
         printf("7. Exit\n");
+        printf("\n///////////////////////////////////////////\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
