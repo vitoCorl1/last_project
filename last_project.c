@@ -362,8 +362,8 @@ void Statistics(int count){
             }
         }
 
-        printf("The oldest player is : %s (%d years)\n", oldest, maxAge);
-        printf("The youngest player is : %s (%d years)\n", youngest, minAge);
+        printf("The oldest player is : %s (%d y)\n", oldest, maxAge);
+        printf("The youngest player is : %s (%d y)\n", youngest, minAge);
     } else {
         printf("No players available.\n");
     }
